@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x7b2c;&#x4e94;&#x7ae0; NoSql&#x6570;&#x636e;&#x5e93;</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="../chapter.css" />
+            <script defer src="../toggle-theme.js"></script>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="第五章-nosql数据库">第五章 NoSql数据库</h2>
+<p><strong>01 NoSQL数据库兴起的主要原因不包括以下哪一项？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 关系数据库部署、管理、配置复杂</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 关系数据库主备切换可能丢失数据</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 关系数据库具有强大的横向扩展能力</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 关系数据库扩容和数据迁移过程难以实现自动化</li>
+</ul>
+<p><strong>02 与关系数据库相比，NoSQL数据库的主要劣势是什么？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 支持超大规模数据存储</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 技术成熟，有专业公司的技术支持</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 缺乏数学理论基础，复杂查询性能不高</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 灵活的数据模型支持Web2.0应用</li>
+</ul>
+<p><strong>03 以下哪种类型的数据库属于NoSQL数据库的四大类型之一？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 关系数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 图形数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 网络数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 层次数据库</li>
+</ul>
+<p><strong>04 在CAP理论中，如果强调一致性（C）和可用性（A），需要放弃的是什么？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 分区容忍性（P）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 原子性（A）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 一致性（C）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 隔离性（I）</li>
+</ul>
+<p><strong>05 MongoDB是哪个类型的NoSQL数据库？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 键值数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 列族数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 文档数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 图数据库</li>
+</ul>
+<p><strong>06 以下哪项不是NoSQL数据库的特点？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 支持超大规模数据存储</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 具有严格的数据模型</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 可以很好地支持Web2.0应用</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 具有强大的横向扩展能力</li>
+</ul>
+<p><strong>07 在CAP理论中，如果强调一致性和分区容忍性，而放弃可用性，那么会出现什么情况？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 系统无法扩展</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 受影响的服务需要等待数据一致，期间无法提供服务</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 系统会返回不一致的数据</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 数据会丢失</li>
+</ul>
+<p><strong>08 以下哪种NoSQL数据库类型以键值对存储数据？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 文档数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 列族数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 键值数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 图数据库</li>
+</ul>
+<p><strong>09 NoSQL数据库具有哪些特点？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 支持超大规模数据存储</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 严格的数据模型</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 可以很好地支持Web2.0应用</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 具有强大的横向扩展能力</li>
+</ul>
+<p><strong>10 NoSQL数据库兴起的原因包括哪些？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 关系数据库无法满足海量数据的管理需求</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 关系数据库无法满足数据高并发的需求</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 关系数据库无法满足高可扩展性和高可用性的需求</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. NoSQL数据库技术成熟，有专业公司的技术支持</li>
+</ul>
+<p><strong>11 与关系数据库相比，NoSQL数据库的劣势有哪些？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 缺乏数学理论基础</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 复杂查询性能高</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 大都不能实现事务强一致性</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 技术成熟，有专业团队的技术支持</li>
+</ul>
+<p><strong>12 关系数据库的优势主要体现在哪些方面？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 以完善的关系代数理论作为基础</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 可扩展性好，能很好支持海量数据存储</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 支持事务ACID四性</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 技术成熟，有专业公司的技术支持</li>
+</ul>
+<p><strong>13 NoSQL数据库的四大类型包括哪些？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 键值数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 列族数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 文档数据库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 图数据库</li>
+</ul>
+<p><strong>14 CAP理论中的三个属性分别是什么？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 一致性（Consistency）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 可用性（Availability）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 分区容忍性（Partition tolerance）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 持久性（Durability）</li>
+</ul>
+<p><strong>15 以下哪些属于BASE理论中的“三不”？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 基本可用（Basically Available）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 软状态/柔性事务（Soft State）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 最终一致性（Eventually Consistent）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 强一致性（Strong Consistency）</li>
+</ul>
+<p><strong>16 以下哪些场景适合使用NoSQL数据库？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 电信领域的关键业务系统</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 互联网企业的非关键业务</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 需要保证强事务一致性的业务</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 传统企业的数据分析业务</li>
+</ul>
+<p><strong>17 NoSQL数据库已经完全取代了关系数据库，成为主流数据库。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>18 NoSQL数据库无法支持复杂查询。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>19 在CAP理论中，一个分布式系统不可能同时满足一致性、可用性和分区容忍性。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>20 NoSQL数据库主要包括键值数据库、列族数据库、关系数据库和图形数据库四种类型。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>21 NewSQL数据库融合了传统关系数据库和NoSQL数据库的优点。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>22 [简答]简述NoSQL数据库兴起的原因。</strong></p>
+<details><summary>点击显示答案</summary>
+不同业务场景的数据结构、访问模式和扩展需求各异。将 NoSQL 按键值、列族、文档、图等模型分类，可以帮助开发者快速选型——比如需要超高并发写入可选键值存储，需要半结构化文档查询可选文档库，需要复杂关系分析可选图数据库——从而简化开发、提升性能和扩展性。
+</details>
+<p><strong>23 [简答]什么是BASE理论？它与ACID特性有何关系？</strong></p>
+<details><summary>点击显示答案</summary>
+BASE：Basically Available（基本可用）、Soft state（软状态）、Eventual consistency（最终一致）。  
+关系：BASE 在分布式系统中通过放宽强一致性，牺牲实时一致性来换取高可用性和横向扩展；而 ACID（Atomicity、Consistency、Isolation、Durability）强调严格的一致性和事务完整性，更适用于对数据一致性要求极高的场景。
+</details>
+
+            
+            
+        </body>
+        </html>

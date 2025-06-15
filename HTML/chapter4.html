@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x7b2c;&#x56db;&#x7ae0; &#x6a21;&#x7cca;&#x63a7;&#x5236;</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="../chapter.css" />
+            <script defer src="../toggle-theme.js"></script>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="第四章-模糊控制">第四章 模糊控制</h2>
+<p><strong>01 模糊集合的隶属度函数取值范围是什么？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. [-1, 1]</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. [0, 1]</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. (-∞, +∞)</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. [0, 100]</li>
+</ul>
+<p><strong>02 下列哪个选项不是模糊集合的基本概念之一？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 凸模糊集</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 支撑集</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 隶属度函数</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 贝叶斯定理</li>
+</ul>
+<p><strong>03 模糊控制器的主要特点之一是什么？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 需要精确的数学模型</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 不依赖于被控对象的精确数学模型</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 只能用于线性系统</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 仅适用于静态系统</li>
+</ul>
+<p><strong>04 在模糊控制算法设计中，下列哪一项不属于模糊系统的四个基本要素？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 知识库</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 推理单元</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 控制器</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 解模糊器</li>
+</ul>
+<p><strong>05 关于隶属度函数的描述，哪一个是正确的？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 它只能用图形表示</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 它可以完全描述模糊集</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 它只适用于离散论域</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 它的值越接近0，元素属于模糊集的程度越大</li>
+</ul>
+<p><strong>06 在模糊规则与模糊推理中，语言变量可以取什么为值？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 数字</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 模糊集</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 字符串</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 布尔值</li>
+</ul>
+<p><strong>07 [多选]在模糊控制中，以下哪些选项是模糊控制器的优点？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 简化系统设计复杂性</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 需要精确的数学模型</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 不依赖于被控对象的精确数学模型</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 具有良好的鲁棒性和适应性</li>
+</ul>
+<p><strong>08 [多选]下列关于隶属度函数的描述正确的是？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 它可以完全描述模糊集</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 它的值越接近1，元素属于模糊集的程度越大</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 它只能用于连续论域</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 存在多种典型的隶属度函数类型</li>
+</ul>
+<p><strong>09 [多选]哪些方法属于去模糊化计算方法？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 最大隶属度法</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 中位数法</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 加权平均法（重心法）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 极小极大法</li>
+</ul>
+<p><strong>10 德·摩根定律不适用于模糊集合运算。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 对</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 错</li>
+</ul>
+<p><strong>11 模糊控制器不能应用于非线性系统中。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 对</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 错</li>
+</ul>
+<p><strong>12 在模糊控制系统中，“IF-THEN”规则构成了知识库的核心部分。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 对</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 错</li>
+</ul>
+<p><strong>13 模糊关系是指多个模糊集之间的关联程度，而不是简单的“是”或“否”。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 对</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 错</li>
+</ul>
+<p><strong>14 “接近于0的数”的隶属度函数可以用高斯函数表示。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 对</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 错</li>
+</ul>
+<p><strong>15 在模糊控制中，如果某汽车 x₀ 有 60% 的零件在德国制造，则可以说汽车 x₀ 属于模糊集合 D 的程度为______。</strong></p>
+<details><summary>点击显示答案</summary>
+0.6
+</details>
+<p><strong>16 对于任意的输入，模糊控制器应确保至少有一个可适用的规则，且规则的适用程度应大于一定的要求数，这被称为______。</strong></p>
+<details><summary>点击显示答案</summary>
+完备性
+</details>
+<p><strong>17 简述模糊集合与经典集合的主要区别。</strong></p>
+<details><summary>点击显示答案</summary>
+经典集合中元素只能“属于”或“不属于”（隶属度为 0 或 1），而模糊集合允许元素以 [0,1] 之间的隶属度部分隶属。
+</details>
+<p><strong>18 简述模糊控制有哪些典型的应用领域。</strong></p>
+<details><summary>点击显示答案</summary>
+工业过程控制、家用电器（如空调、洗衣机）自动控制、机器人控制、汽车自动变速器等。
+</details>
+<p><strong>19 已知“接近于0的数”的隶属度函数为高斯函数 μ = e^(−x²/2)，则求 x = 0 和 x = 2 时，该隶属度的值。（注：^ 表示指数运算，例如 2² = 4）</strong></p>
+<details><summary>点击显示答案</summary>
+μ(0) = e⁰ = 1  
+μ(2) = e^(−2) ≈ 0.1353
+</details>
+<p><strong>20 给定模糊集合 A 定义在论域 U={1,2,3,4,5} 上，其元素对应的隶属度分别为 μ={0.2,0.5,0.8,0.6,0.3}。现求模糊集合 A 的 α=0.5 截集包含哪些元素？</strong></p>
+<details><summary>点击显示答案</summary>
+{2, 3, 4}
+</details>
+<p><strong>21 已知模糊控制器输出量 z 属于模糊集合 A，模糊集合 A 的元素有 A={1,2,3,4,5}，对应隶属度函数为 μ={0.2,0.7,1,0.8,0.3}，请使用加权平均法计算清晰量 z₀。</strong></p>
+<details><summary>点击显示答案</summary>
+计算公式  
+<p class="katex-block"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>z</mi><mn>0</mn></msub><mtext>  </mtext><mo>=</mo><mtext>  </mtext><mfrac><mstyle scriptlevel="0" displaystyle="true"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>5</mn></munderover><msub><mi>μ</mi><mi>i</mi></msub><mtext> </mtext><msub><mi>x</mi><mi>i</mi></msub></mstyle><mstyle scriptlevel="0" displaystyle="true"><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>5</mn></munderover><msub><mi>μ</mi><mi>i</mi></msub></mstyle></mfrac><mtext>  </mtext><mo>=</mo><mtext>  </mtext><mfrac><mrow><mn>0.2</mn><mo>×</mo><mn>1</mn><mtext>  </mtext><mo>+</mo><mtext>  </mtext><mn>0.7</mn><mo>×</mo><mn>2</mn><mtext>  </mtext><mo>+</mo><mtext>  </mtext><mn>1</mn><mo>×</mo><mn>3</mn><mtext>  </mtext><mo>+</mo><mtext>  </mtext><mn>0.8</mn><mo>×</mo><mn>4</mn><mtext>  </mtext><mo>+</mo><mtext>  </mtext><mn>0.3</mn><mo>×</mo><mn>5</mn></mrow><mrow><mn>0.2</mn><mo>+</mo><mn>0.7</mn><mo>+</mo><mn>1</mn><mo>+</mo><mn>0.8</mn><mo>+</mo><mn>0.3</mn></mrow></mfrac><mtext>  </mtext><mo>=</mo><mtext>  </mtext><mfrac><mn>9.3</mn><mn>3.0</mn></mfrac><mtext>  </mtext><mo>=</mo><mtext>  </mtext><mn>3.1</mn></mrow><annotation encoding="application/x-tex">z_0 \;=\; 
+\frac{\displaystyle\sum_{i=1}^5 \mu_i \, x_i}
+     {\displaystyle\sum_{i=1}^5 \mu_i}
+\;=\;
+\frac{0.2 \times 1 \;+\; 0.7 \times 2 \;+\; 1 \times 3 \;+\; 0.8 \times 4 \;+\; 0.3 \times 5}
+     {0.2 + 0.7 + 1 + 0.8 + 0.3}
+\;=\;
+\frac{9.3}{3.0}
+\;=\;3.1
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:6.4376em;vertical-align:-2.9688em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.4688em;"><span style="top:-2.11em;"><span class="pstrut" style="height:3.8011em;"></span><span class="mord"><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8011em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">μ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-4.0311em;"><span class="pstrut" style="height:3.8011em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-5.4688em;"><span class="pstrut" style="height:3.8011em;"></span><span class="mord"><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8011em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">5</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">μ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.9688em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0908em;vertical-align:-0.7693em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">0.2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">0.7</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">0.8</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">0.3</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">0.2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">0.7</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">0.8</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">0.3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">5</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">3.0</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">9.3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3.1</span></span></span></span></span></p>
+</details>
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

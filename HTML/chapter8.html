@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x7b2c;&#x4e09;&#x7ae0; &#x5206;&#x5e03;&#x5f0f;&#x6587;&#x4ef6;&#x7cfb;&#x7edf; HDFS</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="../chapter.css" />
+            <script defer src="../toggle-theme.js"></script>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="第三章-分布式文件系统-hdfs">第三章 分布式文件系统 HDFS</h2>
+<p><strong>01 在 HDFS 中，负责管理分布式文件系统的命名空间和客户端对文件的访问的组件是什么？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 数据节点</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 名称节点</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. EditLog</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. FsImage</li>
+</ul>
+<p><strong>02 FsImage 文件不包含以下哪项信息？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 文件系统中所有目录和文件的 inode</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 每个块的存储位置</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 文件的复制等级和修改时间</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 目录的修改时间和权限</li>
+</ul>
+<p><strong>03 在 HDFS 中，当数据节点加入集群时，它会执行什么操作？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 向名称节点发送心跳信息</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 向客户端发送数据</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 自行决定存储哪些数据</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 无需执行任何操作</li>
+</ul>
+<p><strong>04 HDFS 的通信协议是构建在什么协议基础之上的？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. UDP/IP</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. HTTP</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. TCP/IP</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. FTP</li>
+</ul>
+<p><strong>05 HDFS 采用什么方式对数据进行冗余存储以提高容错性和可用性？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 单副本</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 双副本</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 多副本</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 不确定</li>
+</ul>
+<p><strong>06 当数据节点发生故障时，名称节点会如何处理？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 立即删除故障节点上的数据</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 停止所有客户端的访问</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 将故障节点标记为“宕机”并启动数据冗余复制</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 不采取任何措施</li>
+</ul>
+<p><strong>07 HDFS 名称节点（NameNode）保存了哪些核心数据结构？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. FsImage</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. EditLog</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 数据块</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 文件内容</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> E. 每个文件中各个块所在的数据节点的位置信息</li>
+</ul>
+<p><strong>08 HDFS 数据节点的功能包括哪些？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 管理分布式文件系统的命名空间</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 负责数据的存储和读取</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 定期向名称节点发送心跳信息</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 处理客户端的读写请求</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> E. 维护 EditLog 文件</li>
+</ul>
+<p><strong>09 HDFS 中，名称节点（NameNode）也被称为从节点。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>10 HDFS 默认一个块的大小为 128MB。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>11 HDFS 可以高效存储大量小文件。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>12 HDFS 支持多用户写入及任意修改文件。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>13 在 HDFS 中，______（NameNode）负责管理分布式文件系统的命名空间。</strong></p>
+<details><summary>点击显示答案</summary>
+NameNode
+</details>
+<p><strong>14 HDFS 采用了______结构模型，一个 HDFS 集群包括一个名称节点和若干个数据节点。</strong></p>
+<details><summary>点击显示答案</summary>
+主从
+</details>
+<p><strong>15 HDFS 有很多 shell 命令，其中，______ 命令可以查看 HDFS 文件系统的目录结构、上传和下载数据、创建文件等。</strong></p>
+<details><summary>点击显示答案</summary>
+hdfs dfs
+</details>
+<p><strong>16 HDFS 中，所有的 HDFS 通信协议都是构建在______协议基础之上的。</strong></p>
+<details><summary>点击显示答案</summary>
+TCP/IP
+</details>
+<p><strong>17 当数据节点发生故障或网络发生断网时，名称节点就无法收到来自一些数据节点的______信息。</strong></p>
+<details><summary>点击显示答案</summary>
+心跳
+</details>
+<p><strong>18 [简答]HDFS 体系结构中包括哪两个主要组件？它们各自的功能是什么？</strong></p>
+<details><summary>点击显示答案</summary>
+HDFS 包括 NameNode 和 DataNode 两个主要组件。  
+- **NameNode**：管理文件系统命名空间、维护元数据（如目录树、文件 inode 及块列表）。  
+- **DataNode**：存储实际的数据块，处理客户端的读写请求，并定期向 NameNode 汇报心跳和块报告。
+</details>
+<p><strong>19 [简答]HDFS 如何实现数据的冗余存储？这样做的好处是什么？</strong></p>
+<details><summary>点击显示答案</summary>
+HDFS 通过多副本机制（默认 3 副本）将数据块复制到不同的 DataNode。  
+**好处**：即使部分节点故障，也可从其他副本读取数据，提高系统容错性和可用性。
+</details>
+<p><strong>20 [简答]当 HDFS 中的数据节点出现故障时，系统是如何应对的？</strong></p>
+<details><summary>点击显示答案</summary>
+NameNode 会将故障节点标记为下线，并对剩余副本不足的块启动新的副本复制，以保证每个块的副本数满足设定的容错要求。
+</details>
+<p><strong>21 [简答]HDFS 中的 FsImage 和 EditLog 分别保存了什么信息？</strong></p>
+<details><summary>点击显示答案</summary>
+- **FsImage**：持久化存储文件系统完整元数据快照，包括目录树、文件 inode 及块 ID 列表。  
+- **EditLog**：记录对命名空间的增量修改操作（如创建、删除、重命名等），用于增量更新 FsImage。
+</details>
+
+            
+            
+        </body>
+        </html>

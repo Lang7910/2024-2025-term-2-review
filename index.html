@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>复习资料 · 多文件单页加载器</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?df589918ab4112b0538b2d4027d25163";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+</head>
+<body><!-- ① 默认收起侧边栏 -->
+  <button id="toggle-btn" aria-label="切换目录">☰</button>
+
+  <!-- 使用 Grid 更清晰地分两列 -->
+  <div class="layout">
+    <nav id="sidebar" aria-label="章节目录"></nav>
+    <main id="content">
+      <div class="tiny-notice">
+        AI生成，可能不对。
+        工业互联网选择题，除题目和正确选项外，为AI生成。有错误直接联系本人
+    </div>
+      <iframe id="chapter-frame" title="章节内容" loading="lazy"></iframe>
+    </main>
+  </div>
+
+  <script src="loader.js"></script>
+  <script src="ip-tracker.js"></script>
+</body>
+</html>

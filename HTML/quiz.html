@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>随机抽题</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../chapter.css" />
+  <script defer src="../toggle-theme.js"></script>
+  <style>
+    /* Scoreboard styles */
+    #scoreboard {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 10px 15px;
+      margin: 0 auto 20px auto;
+      max-width: 800px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.1);
+      font-size: 0.75em;
+      transition: all 0.3s ease;
+    }
+    #scoreboard h3 {
+      margin: 0;
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #495057;
+      flex-shrink: 0;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    #scoreboard .score-item {
+      margin: 0;
+      font-size: 0.95em;
+      font-weight: 500;
+      color: #6c757d;
+      white-space: nowrap;
+      padding: 2px 6px;
+      background-color: rgba(255,255,255,0.6);
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    #scoreboard .scoreboard-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin: 0;
+      background-color: rgba(255,255,255,0.6);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    #scoreboard .scoreboard-item label {
+      font-size: 0.85em;
+      font-weight: 500;
+      color: #6c757d;
+      margin: 0;
+    }
+    #custom-points-input {
+      border: 1px solid #ced4da;
+      border-radius: 3px;
+      padding: 2px 4px;
+      background-color: #fff;
+      color: #495057;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    #custom-points-input:focus {
+      border-color: #80bdff;
+      outline: 0;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    #reset-score-btn {
+      padding: 5px 10px;
+      background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8em;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    #next-question-btn,
+    #submit-answer-btn {
+      padding: 10px 18px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+    #reset-score-btn:hover {
+      background: linear-gradient(135deg, #5a6268 0%, #4e555b 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+    #next-question-btn:hover,
+    #submit-answer-btn:hover {
+      background-color: #0056b3;
+    }
+    html.dark-mode #scoreboard {
+      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+      border-color: #404040;
+      color: #e0e0e0;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.3);
+    }
+    html.dark-mode #reset-score-btn {
+      background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
+      color: #e0e0e0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    html.dark-mode #reset-score-btn:hover {
+      background: linear-gradient(135deg, #4a4a4a 0%, #3a3a3a 100%);
+      transform: translateY(-1px);
+    }
+    html.dark-mode #scoreboard h3 {
+      color: #f0f0f0;
+    }
+    html.dark-mode #scoreboard .score-item {
+      background-color: rgba(0,0,0,0.2);
+      border-color: rgba(255,255,255,0.08);
+      color: #d0d0d0;
+    }
+    html.dark-mode #scoreboard .scoreboard-item {
+      background-color: rgba(0,0,0,0.2);
+      border-color: rgba(255,255,255,0.08);
+    }
+    html.dark-mode #scoreboard .scoreboard-item label {
+      color: #d0d0d0;
+    }
+    html.dark-mode #custom-points-input {
+      background-color: #3a3a3a;
+      border-color: #505050;
+      color: #e0e0e0;
+    }
+    html.dark-mode #custom-points-input:focus {
+      border-color: #80bdff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    
+    /* Essay answer box styles */
+    .essay-answer-box {
+      background-color: #f8f9fa !important;
+      border-color: #dee2e6 !important;
+      color: #212529 !important;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    
+    html.dark-mode .essay-answer-box {
+      background-color: #2a2a2a !important;
+      border-color: #404040 !important;
+      color: #e0e0e0 !important;
+    }
+    
+    /* Subject checkboxes styles */
+    #subject-checkboxes label {
+      transition: color 0.3s ease;
+    }
+    #subject-checkboxes input[type="checkbox"] {
+      accent-color: #007bff;
+    }
+    html.dark-mode #subject-checkboxes label {
+      color: #e9ecef;
+    }
+    /* Reset button styles */
+    #reset-score-btn {
+      background: #f8f9fa !important;
+      color: #333 !important;
+      border: 1px solid #ddd !important;
+    }
+    
+    html.dark-mode #reset-score-btn {
+      background: #404040 !important;
+      color: #e0e0e0 !important;
+      border: 1px solid #555 !important;
+    }
+    
+    html.dark-mode #subject-checkboxes input[type="checkbox"] {
+      accent-color: #0056b3;
+    }
+    html.dark-mode #next-question-btn,
+    html.dark-mode #submit-answer-btn {
+      background-color: #0056b3;
+      color: #e0e0e0;
+    }
+    html.dark-mode #next-question-btn:hover,
+    html.dark-mode #submit-answer-btn:hover {
+      background-color: #004494;
+    }
+
+    /* Mobile responsive styles - Enhanced device detection */
+    @media (max-width: 768px) and (pointer: coarse), 
+           (max-width: 768px) and (hover: none), 
+           (max-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5), 
+           (max-width: 768px) and (min-resolution: 144dpi) {
+      #quiz-container {
+        padding: 15px;
+      }
+      #quiz-container h2 {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+      }
+      .question {
+        font-size: 1.6em;
+        line-height: 1.4;
+        margin-bottom: 25px;
+      }
+      .options li {
+        font-size: 1.5em;
+        padding: 20px 22px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+      }
+      #next-question-btn,
+      #submit-answer-btn {
+        font-size: 1.6em;
+        padding: 18px 20px;
+        width: 85%;
+        max-width: 400px;
+        border-radius: 8px;
+        margin: 10px auto;
+        display: block;
+      }
+      #scoreboard {
+        padding: 8px 12px;
+        font-size: 0.85em;
+        justify-content: center;
+        margin-bottom: 20px;
+        border-radius: 8px;
+      }
+      #scoreboard h3 {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 6px;
+        font-size: 1.2em;
+      }
+      #scoreboard .score-item {
+        font-size: 0.95em;
+        padding: 3px 6px;
+      }
+      #scoreboard .scoreboard-item {
+        padding: 3px 6px;
+        margin-bottom: 4px;
+      }
+      #scoreboard .scoreboard-item label {
+        font-size: 0.95em;
+        margin-bottom: 2px;
+      }
+      #subject-checkboxes, #question-type-checkboxes {
+        gap: 6px !important;
+        padding: 3px !important;
+      }
+      #subject-checkboxes label, #question-type-checkboxes label {
+        font-size: 0.8em !important;
+        padding: 1px 3px !important;
+      }
+      #reset-score-btn {
+        padding: 8px 12px;
+        font-size: 1em;
+        border-radius: 6px;
+      }
+      #custom-points-input {
+        width: 50px !important;
+        font-size: 1em;
+        padding: 4px 6px;
+      }
+      #subject-checkboxes label {
+        font-size: 1em;
+        gap: 5px;
+      }
+      #subject-checkboxes input[type="checkbox"] {
+        transform: scale(1.2);
+      }
+    }
+    
+    @media (max-width: 480px) and (pointer: coarse), 
+           (max-width: 480px) and (hover: none), 
+           (max-width: 480px) and (-webkit-min-device-pixel-ratio: 1.5), 
+           (max-width: 480px) and (min-resolution: 144dpi) {
+      #quiz-container {
+        padding: 12px;
+      }
+      #quiz-container h2 {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+      .question {
+        font-size: 1.4em;
+        line-height: 1.4;
+        margin-bottom: 20px;
+      }
+      .options li {
+        font-size: 1.3em;
+        padding: 18px 20px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+      }
+      #next-question-btn,
+      #submit-answer-btn {
+        font-size: 1.4em;
+        padding: 16px 20px;
+        width: 85%;
+        max-width: 350px;
+        border-radius: 8px;
+        margin: 8px auto;
+        display: block;
+      }
+      #scoreboard {
+        padding: 6px 10px;
+        font-size: 0.75em;
+        gap: 6px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+      }
+      #scoreboard h3 {
+        font-size: 1.1em;
+        margin-bottom: 4px;
+      }
+      #scoreboard .score-item {
+        font-size: 0.9em;
+        padding: 2px 5px;
+      }
+      #scoreboard .scoreboard-item {
+        padding: 2px 5px;
+        margin-bottom: 3px;
+      }
+      #scoreboard .scoreboard-item label {
+        font-size: 0.85em;
+        margin-bottom: 1px;
+      }
+      #subject-checkboxes, #question-type-checkboxes {
+        gap: 4px !important;
+        padding: 2px !important;
+      }
+      #subject-checkboxes label, #question-type-checkboxes label {
+        font-size: 0.75em !important;
+        padding: 1px 2px !important;
+      }
+      #reset-score-btn {
+        padding: 6px 10px;
+        font-size: 0.9em;
+        border-radius: 5px;
+      }
+      #custom-points-input {
+        width: 45px !important;
+        font-size: 0.9em;
+        padding: 3px 5px;
+      }
+      #subject-checkboxes label {
+        font-size: 0.9em;
+        gap: 4px;
+      }
+      #subject-checkboxes input[type="checkbox"] {
+        transform: scale(1.1);
+      }
+    }
+
+    /* Quiz specific styles can go here */
+    #quiz-container {
+      padding: 20px;
+    }
+    
+    .tiny-notice {
+      font-size: 0.75em;
+      color: #666;
+      text-align: center;
+      padding: 8px 12px;
+      background-color: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 4px;
+      margin: 0 20px;
+      opacity: 0.8;
+    }
+    
+    html.dark-mode .tiny-notice {
+      background-color: #2a2a2a;
+      border-color: #404040;
+      color: #aaa;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .options ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .options li {
+      margin-bottom: 12px;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+      font-size: 1.05em;
+    }
+    .options li:hover {
+      background-color: #e9ecef;
+      border-color: #ced4da;
+    }
+    .options li.selected {
+      background-color: #cce5ff; /* A light blue for selected items */
+      border-color: #b8daff;
+      color: #004085;
+      font-weight: bold;
+    }
+    /* Dark mode specific styles for options */
+    html.dark-mode .options li {
+        background-color: #2a2a2a;
+        border-color: #404040;
+        color: #e0e0e0;
+    }
+    html.dark-mode .options li:hover {
+      background-color: #3a3a3a; 
+      border-color: #505050;
+      color: #f0f0f0; 
+    }
+    html.dark-mode .options li.selected {
+      background-color: #1a4a7a; 
+      border-color: #2a5a8a;
+      color: #e0f0ff; 
+    }
+    .feedback {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .feedback.correct {
+      background-color: #e6ffed;
+      border: 1px solid #b7ebc0;
+      color: #257942;
+    }
+    .feedback.incorrect {
+      background-color: #ffe6e6;
+      border: 1px solid #ebb7b7;
+      color: #792525;
+    }
+    /* #next-question-btn specific styles are now part of the common button styles */
+  </style>
+</head>
+<body>
+  <div id="scoreboard">
+    <h3 style="margin: 0 0 8px 0; text-align: center; font-size: 1.1em;">计分板</h3>
+    
+    <!-- 分数统计区域 -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 6px; padding: 4px; background: rgba(0,0,0,0.05); border-radius: 4px;">
+      <div class="score-item" style="text-align: center;">总得分: <span id="total-score" style="font-weight: bold; color: #2196F3;">0</span></div>
+      <div class="score-item" style="text-align: center;">已答题数: <span id="questions-answered" style="font-weight: bold; color: #4CAF50;">0</span></div>
+      <div class="score-item" style="text-align: center; display: flex; align-items: center; gap: 6px; justify-content: center;">
+        <label for="custom-points-input" style="font-weight: bold; font-size: 0.85em; margin: 0;">每题分数:</label>
+        <input type="number" id="custom-points-input" value="2" min="1" style="width: 40px; font-size: 0.8em; padding: 2px; border: 1px solid #ddd; border-radius: 3px; text-align: center;">
+      </div>
+      <div class="score-item" style="text-align: center;">答对题数: <span id="questions-correct" style="font-weight: bold; color: #FF9800;">0</span></div>
+      <div class="score-item" style="text-align: center;">正确率: <span id="accuracy-rate" style="font-weight: bold; color: #9C27B0;">0%</span></div>
+      <div class="score-item" style="text-align: center; display: flex; align-items: center; gap: 4px; justify-content: center;">
+        <button id="reset-score-btn" style="padding: 3px 8px; font-size: 0.8em; border-radius: 3px; border: 1px solid #ddd; background: #f8f9fa; color: #333; cursor: pointer; transition: all 0.3s ease;">重置</button>
+      </div>
+    </div>
+    
+    <!-- 筛选选项区域 -->
+    <div style="margin-bottom: 8px;">
+      <div class="scoreboard-item" style="margin-bottom: 6px;">
+        <label style="display: block; margin-bottom: 4px; font-weight: bold; font-size: 0.9em;">抽题范围:</label>
+        <div id="subject-checkboxes" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; padding: 4px; background: rgba(0,0,0,0.03); border-radius: 3px;">
+          <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em; cursor: pointer; padding: 1px 4px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+            <input type="checkbox" value="manufacturing" style="margin: 0;">
+            制造技术
+          </label>
+          <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em; cursor: pointer; padding: 1px 4px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+            <input type="checkbox" value="data" checked style="margin: 0;">
+            数据技术
+          </label>
+          <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em; cursor: pointer; padding: 1px 4px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+            <input type="checkbox" value="industrial" style="margin: 0;">
+            工业互联网
+          </label>
+        </div>
+      </div>
+      
+      <div class="scoreboard-item">
+        <label style="display: block; margin-bottom: 4px; font-weight: bold; font-size: 0.9em;">题目类型:</label>
+        <div id="question-type-checkboxes" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; padding: 4px; background: rgba(0,0,0,0.03); border-radius: 3px;">
+        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em; cursor: pointer; padding: 1px 4px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+          <input type="checkbox" value="single-choice" checked style="margin: 0;">
+          单选题
+        </label>
+        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em; cursor: pointer; padding: 1px 4px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+          <input type="checkbox" value="multiple-choice" checked style="margin: 0;">
+          多选题
+        </label>
+        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em; cursor: pointer; padding: 1px 4px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+          <input type="checkbox" value="true-false" checked style="margin: 0;">
+          判断题
+        </label>
+        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em; cursor: pointer; padding: 1px 4px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+          <input type="checkbox" value="fill-blank" style="margin: 0;">
+          填空题(测试)
+        </label>
+        <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em; cursor: pointer; padding: 1px 4px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+          <input type="checkbox" value="essay" style="margin: 0;">
+          简答题(测试)
+        </label>
+        </div>
+      </div>
+    </div>
+    
+
+  </div>
+
+  <div id="quiz-container">
+    <h2>随机题目</h2>
+    <div id="question-area">
+      <!-- Question will be loaded here -->
+    </div>
+    <div id="options-area">
+      <!-- Options will be loaded here -->
+    </div>
+    <div id="feedback-area">
+      <!-- Feedback will be shown here -->
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="next-question-btn">下一题</button>
+      <button id="submit-answer-btn" style="display: none;">确认答案</button>
+    </div>
+  </div>
+  
+  <div class="tiny-notice" style="margin-top: 20px; margin-bottom: 10px;">
+    最新内容请点击刷新
+  </div>
+  
+  <script src="../quiz.js"></script>
+</body>
+</html>

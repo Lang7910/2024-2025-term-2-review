@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP访问记录管理</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 2em;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .stat-label {
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+    .controls {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 5px;
+      font-size: 14px;
+    }
+    .btn:hover {
+      background: #0056b3;
+    }
+    .btn.danger {
+      background: #dc3545;
+    }
+    .btn.danger:hover {
+      background: #c82333;
+    }
+    .logs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .logs-table th,
+    .logs-table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    .logs-table th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+    .logs-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .logs-table tr:hover {
+      background-color: #e9ecef;
+    }
+    .ip-cell {
+      font-family: monospace;
+      font-weight: bold;
+      color: #007bff;
+    }
+    .time-cell {
+      font-size: 0.9em;
+      color: #666;
+    }
+    .location-cell {
+      font-size: 0.9em;
+    }
+    .no-data {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      padding: 40px;
+    }
+    @media (max-width: 768px) {
+      .logs-table {
+        font-size: 12px;
+      }
+      .logs-table th,
+      .logs-table td {
+        padding: 8px 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>IP访问记录管理</h1>
+    
+    <div class="stats" id="stats-container">
+      <!-- 统计信息将在这里显示 -->
+    </div>
+    
+    <div class="controls">
+      <button class="btn" onclick="refreshData()">刷新数据</button>
+      <button class="btn" onclick="exportLogs()">导出记录</button>
+      <button class="btn danger" onclick="clearLogs()">清空记录</button>
+      <button class="btn" onclick="window.open('index.html', '_blank')">返回主页</button>
+    </div>
+    
+    <div id="logs-container">
+      <!-- 访问记录表格将在这里显示 -->
+    </div>
+  </div>
+
+  <script>
+    // 密码保护功能
+    function checkPassword() {
+      const correctPassword = 'admin123'; // 可以修改这个密码
+      const userPassword = prompt('请输入访问密码:');
+      
+      if (userPassword !== correctPassword) {
+        alert('密码错误，无法访问此页面！');
+        window.location.href = 'index.html'; // 重定向到主页
+        return false;
+      }
+      return true;
+    }
+
+    // 页面加载时检查密码
+    if (!checkPassword()) {
+      document.body.innerHTML = '<div style="text-align: center; margin-top: 50px; font-size: 18px; color: #666;">访问被拒绝</div>';
+    }
+
+    class IPLogManager {
+      constructor() {
+        this.storageKey = 'visitor_ip_logs';
+      }
+
+      // 获取所有访问记录
+      getAllLogs() {
+        try {
+          return JSON.parse(localStorage.getItem(this.storageKey) || '[]');
+        } catch (error) {
+          console.log('读取访问记录失败:', error);
+          return [];
+        }
+      }
+
+      // 计算统计信息
+      calculateStats(logs) {
+        const uniqueIPs = new Set(logs.map(log => log.ip));
+        const countries = new Set(logs.map(log => log.country).filter(c => c && c !== '未知'));
+        const cities = new Set(logs.map(log => log.city).filter(c => c && c !== '未知'));
+        
+        // 计算今日访问
+        const today = new Date().toDateString();
+        const todayVisits = logs.filter(log => 
+          new Date(log.timestamp).toDateString() === today
+        ).length;
+
+        return {
+          totalVisits: logs.length,
+          uniqueIPs: uniqueIPs.size,
+          countries: countries.size,
+          cities: cities.size,
+          todayVisits: todayVisits
+        };
+      }
+
+      // 显示统计信息
+      displayStats(stats) {
+        const container = document.getElementById('stats-container');
+        container.innerHTML = `
+          <div class="stat-card">
+            <div class="stat-number">${stats.totalVisits}</div>
+            <div class="stat-label">总访问次数</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">${stats.uniqueIPs}</div>
+            <div class="stat-label">独立IP数</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">${stats.todayVisits}</div>
+            <div class="stat-label">今日访问</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">${stats.countries}</div>
+            <div class="stat-label">访问国家</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">${stats.cities}</div>
+            <div class="stat-label">访问城市</div>
+          </div>
+        `;
+      }
+
+      // 显示访问记录表格
+      displayLogs(logs) {
+        const container = document.getElementById('logs-container');
+        
+        if (logs.length === 0) {
+          container.innerHTML = '<div class="no-data">暂无访问记录</div>';
+          return;
+        }
+
+        let tableHTML = `
+          <table class="logs-table">
+            <thead>
+              <tr>
+                <th>IP地址</th>
+                <th>访问时间</th>
+                <th>地理位置</th>
+                <th>ISP</th>
+                <th>设备信息</th>
+                <th>来源</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        logs.forEach(log => {
+          const date = new Date(log.timestamp);
+          const timeStr = date.toLocaleString('zh-CN');
+          const location = [log.city, log.region, log.country]
+            .filter(item => item && item !== '未知')
+            .join(', ') || '未知';
+          
+          tableHTML += `
+            <tr>
+              <td class="ip-cell">${log.ip}</td>
+              <td class="time-cell">${timeStr}</td>
+              <td class="location-cell">${location}</td>
+              <td>${log.isp || '未知'}</td>
+              <td title="${log.userAgent}">${log.screen} | ${log.language}</td>
+              <td>${log.referrer}</td>
+            </tr>
+          `;
+        });
+
+        tableHTML += '</tbody></table>';
+        container.innerHTML = tableHTML;
+      }
+
+      // 导出记录
+      exportLogs() {
+        const logs = this.getAllLogs();
+        const dataStr = JSON.stringify(logs, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(dataBlob);
+        link.download = `IP访问记录_${new Date().toISOString().split('T')[0]}.json`;
+        link.click();
+      }
+
+      // 清空记录
+      clearLogs() {
+        if (confirm('确定要清空所有访问记录吗？此操作不可恢复！')) {
+          localStorage.removeItem(this.storageKey);
+          this.refreshData();
+          alert('访问记录已清空');
+        }
+      }
+
+      // 刷新数据
+      refreshData() {
+        const logs = this.getAllLogs();
+        const stats = this.calculateStats(logs);
+        this.displayStats(stats);
+        this.displayLogs(logs);
+      }
+
+      // 初始化
+      init() {
+        this.refreshData();
+      }
+    }
+
+    // 创建管理器实例
+    const logManager = new IPLogManager();
+
+    // 全局函数
+    function refreshData() {
+      logManager.refreshData();
+    }
+
+    function exportLogs() {
+      logManager.exportLogs();
+    }
+
+    function clearLogs() {
+      logManager.clearLogs();
+    }
+
+    // 页面加载完成后初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      logManager.init();
+    });
+  </script>
+</body>
+</html>

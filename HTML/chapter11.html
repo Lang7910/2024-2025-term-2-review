@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x7b2c;&#x4e03;&#x7ae0; MapReduce</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="../chapter.css" />
+            <script defer src="../toggle-theme.js"></script>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="第七章-mapreduce">第七章 MapReduce</h2>
+<p><strong>01 MapReduce 是哪个领域的编程模型？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 集中式计算</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 分布式并行计算</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 嵌入式计算</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 云计算</li>
+</ul>
+<p><strong>02 在 MapReduce 体系结构中，哪个组件负责资源监控和作业调度？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. Client</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. JobTracker</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. TaskTracker</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. Reduce</li>
+</ul>
+<p><strong>03 MapReduce 的处理单位是什么？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. Block</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. Split</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. File</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. Node</li>
+</ul>
+<p><strong>04 在 Shuffle 过程中，哪个操作是在 Map 任务全部结束之前进行的？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 归并</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 排序</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 分区</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 溢写</li>
+</ul>
+<p><strong>05 运行 MapReduce 程序前，需要启动 Hadoop 的哪个服务？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. YARN</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. HDFS</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. MapReduce</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. ZooKeeper</li>
+</ul>
+<p><strong>06 MapReduce 的体系结构主要包括哪些组件？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. Client</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. JobTracker</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. TaskTracker</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. Reduce</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> E. Map</li>
+</ul>
+<p><strong>07 在 MapReduce 模型中，Map 函数的主要作用包括哪些？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 对输入数据进行切片</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 对切片后的数据执行处理逻辑</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 生成中间结果</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 对中间结果进行排序和归并</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> E. 输出最终结果</li>
+</ul>
+<p><strong>08 Reduce 函数在 MapReduce 模型中负责哪些任务？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 接收 Map 函数输出的中间结果</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 对中间结果进行排序和归并</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 执行用户定义的处理逻辑来生成最终结果</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 将最终结果写回到分布式文件系统</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> E. 监控任务的执行进度和资源使用情况</li>
+</ul>
+<p><strong>09 MapReduce 的工作流程包括哪些主要阶段？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 从分布式文件系统读入数据</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 执行 Map 任务输出中间结果</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. Shuffle 阶段：对中间结果进行分区、排序和整理</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 执行 Reduce 任务得到最终结果</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> E. 将最终结果写入分布式文件系统</li>
+</ul>
+<p><strong>10 在 Shuffle 过程中，Map 端需要进行哪些操作？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 将缓存的数据溢写到本地磁盘</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 对溢写文件进行归并和排序</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 执行 Combiner 操作（如果可能）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 将归并和排序后的数据发送给 Reduce 端</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> E. 监控 Map 任务的执行进度</li>
+</ul>
+<p><strong>11 MapReduce 程序执行过程中，JobTracker 的职责包括哪些？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 接收 Client 提交的 MapReduce 作业</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 监控所有 TaskTracker 和作业的健康状况</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 跟踪任务的执行进度和资源使用量</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 选择合适的任务在空闲资源上执行</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> E. 输出最终结果到分布式文件系统</li>
+</ul>
+<p><strong>12 MapReduce 采用“数据向计算靠拢”的策略来提高计算效率。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> 错误</li>
+</ul>
+<p><strong>13 MapReduce 将复杂的、运行于大规模集群上的并行计算过程高度抽象到了两个函数：______ 和 ______。</strong></p>
+<details><summary>点击显示答案</summary>
+Map 和 Reduce
+</details>
+<p><strong>14 MapReduce 工作流程中，______ 过程非常关键，它负责把 Map 任务的中间结果分区、排序并整理后发送给 Reduce 任务。</strong></p>
+<details><summary>点击显示答案</summary>
+Shuffle
+</details>
+<p><strong>15 [简答]简述 MapReduce 框架的主要组成部分。</strong></p>
+<details><summary>点击显示答案</summary>
+Client、JobTracker、TaskTracker
+</details>
+<p><strong>16 [简答]简述在 MapReduce 模型中，Map 任务的主要职责是什么？</strong></p>
+<details><summary>点击显示答案</summary>
+对输入的 Split 数据执行用户定义的映射逻辑，生成中间的 `<key, value>` 对。
+</details>
+<p><strong>17 [简答]简述 Reduce 任务在 MapReduce 作业中扮演什么角色。</strong></p>
+<details><summary>点击显示答案</summary>
+接收 Shuffle 后的中间结果，对其分组、排序、归并，并执行用户定义的归约逻辑，产生最终输出。
+</details>
+<p><strong>18 [简答]请解释 MapReduce 中的 Shuffle 过程。</strong></p>
+<details><summary>点击显示答案</summary>
+在 Map 端，框架将内存中缓冲的中间 KV 对 spill 到本地磁盘，并进行多路归并排序（可执行 Combiner）；  
+根据分区函数选取目标 Reduce，并通过网络将排序后的数据传输过去；  
+在 Reduce 端，再次对所有来自不同 Map 端的数据进行合并排序，准备调用 Reduce 函数生成最终结果。
+</details>
+
+            
+            
+        </body>
+        </html>

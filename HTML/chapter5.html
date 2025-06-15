@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x7b2c;&#x4e94;&#x7ae0; &#x795e;&#x7ecf;&#x7f51;&#x7edc;</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="../chapter.css" />
+            <script defer src="../toggle-theme.js"></script>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="第五章-神经网络">第五章 神经网络</h2>
+<p><strong>01 异或（XOR）问题为什么不能用单个感知器解决？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 因为单个感知器是非线性模型</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 因为XOR问题不是分类问题</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 因为XOR问题太复杂</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 因为单个感知器无法处理非线性关系</li>
+</ul>
+<p><strong>02 以下哪种方法可以用于神经网络的优化？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 随机梯度下降（SGD）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 牛顿法</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 拟牛顿法（如BFGS）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 以上都可以</li>
+</ul>
+<p><strong>03 在神经网络中，激活函数的作用是什么？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 增加网络的非线性</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 加快训练速度</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 减少过拟合</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 提高准确率</li>
+</ul>
+<p><strong>04 在神经网络训练中，过拟合可以通过什么方法缓解？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 增加数据集大小</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 使用正则化</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 减少网络层数</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 以上都可以</li>
+</ul>
+<p><strong>05 [多选]感知器能够处理哪些类型的逻辑运算？</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 与（AND）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 或（OR）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 非（NOT）</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 异或（XOR）</li>
+</ul>
+<p><strong>06 感知器是一种线性分类模型。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>07 感知器学习过程是通过不断调整权重和偏置来最小化分类误差。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>08 神经网络的隐藏层层数越多，网络的性能就一定越好。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>09 神经网络的训练过程中，损失函数用于衡量网络的输出与期望输出之间的差距。</strong></p>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 错误</li>
+</ul>
+<p><strong>10 在神经网络的训练过程中，______算法是一种常用的优化算法，用于调整权重以最小化损失函数。</strong></p>
+<details><summary>点击显示答案</summary>
+梯度下降法
+</details>
+<p><strong>11 [简答]简述感知器的基本原理。</strong></p>
+<details><summary>点击显示答案</summary>
+感知器对输入向量 **x** 与权重向量 **w** 做点积并加上偏置 **b**，计算  
+$$z = \mathbf{w}\cdot\mathbf{x} + b$$  
+然后通过阶跃激活函数输出二值决策（**y** = 1 或 **y** = 0），对线性可分数据进行分类。
+</details>
+<p><strong>12  [简答]感知器学习过程中的权重调整是如何进行的？</strong></p>
+
+<details><summary>点击显示答案</summary>
+按感知器学习规则更新：  
+$$\Delta w_i = \eta\,(d - y)\,x_i,\quad \Delta b = \eta\,(d - y)$$  
+其中 $\eta$ 为学习率，$d$ 为目标标签，$y$ 为当前输出。
+</details>
+<p><strong>13  [简答]前馈神经网络的基本结构是什么？</strong></p>
+<details><summary>点击显示答案</summary>
+由输入层、一个或多个隐藏层和输出层按序组成，各层之间通常是全连接（Dense），信息沿前向（Feedforward）方向传播。
+</details>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

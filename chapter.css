@@ -1,0 +1,222 @@
+/* chapter.css - Updated base styles with larger fonts */
+
+/* Reset and box-model */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* CSS Variables for easy theming */
+:root {
+  --primary-color: #0969da;
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --link-color: var(--primary-color);
+  --heading-color: #111111;
+  --border-color: #dddddd;
+  --alert-note: #0969da;
+  --alert-tip: #1a7f37;
+  --alert-warning: #9a6700;
+  --alert-severe: #bc4c00;
+  --alert-caution: #d1242f;
+  --alert-important: #8250df;
+}
+
+/* Base typography */
+body {
+  background: var(--background-color);
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 18px; /* increased from 16px */
+  line-height: 1.65;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-color);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+h1 { font-size: 2.25rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+
+p {
+  margin-bottom: 1rem;
+  font-size: 1rem; /* ensure paragraphs scale with body */
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Lists */
+ul, ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+/* Task lists */
+.contains-task-list {
+  list-style: none;
+  margin-bottom: 1rem;
+  padding-left: 0;
+}
+.task-list-item {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.task-list-item-checkbox {
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  pointer-events: none;
+}
+
+/* Details/Summary */
+details {
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+summary {
+  cursor: pointer;
+  font-weight: 600;
+  outline: none;
+  font-size: 1rem;
+}
+summary::marker { content: none; }
+summary::after {
+  content: "▼";
+  float: right;
+}
+details[open] summary::after {
+  content: "▲";
+}
+
+/* Code and preformatted text */
+code {
+  background: #f5f5f5;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+  font-size: 0.95em;
+}
+pre {
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  font-size: 0.95em;
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 4px solid var(--border-color);
+  padding-left: 1rem;
+  color: #555555;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+th, td {
+  border: 1px solid var(--border-color);
+  padding: 0.5rem;
+  text-align: left;
+  font-size: 1rem;
+}
+th {
+  background: #f0f0f0;
+}
+
+/* Alerts */
+.markdown-alert {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--border-color);
+  background: #fafafa;
+  font-size: 1rem;
+}
+.markdown-alert-note { border-left-color: var(--alert-note); }
+.markdown-alert-tip { border-left-color: var(--alert-tip); }
+.markdown-alert-warning { border-left-color: var(--alert-warning); }
+.markdown-alert-severe { border-left-color: var(--alert-severe); }
+.markdown-alert-caution { border-left-color: var(--alert-caution); }
+.markdown-alert-important { border-left-color: var(--alert-important); }
+
+.markdown-alert .markdown-alert-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+/* === 2025-06-11 版：题目、列表、<details> 字号 & 对齐调整 ========== */
+
+/* ① 整站基础字号再放大一点（18 → 20 px）*/
+body{
+  font-size:20px;     /* rem 基准也跟着变大 */
+}
+
+/* ② 题目：<p><strong>…</strong></p>
+ *    · 左缩进 1.75 rem，与任务列表文字对齐
+ *    · 字号比正文再大 10% 左右
+ */
+/* === 对齐修正：题目与复选框左对齐 ================== */
+p > strong{
+  display:block;                   /* 保持独占一行 */
+  margin-left:calc(1.75rem - 20px);/* = 15px → 与 li 文本齐 */
+  font-size:1.25em;                /* 字号不变 */
+}
+
+
+/* ③ 列表正文（ul/li）再大一点，但比题目小 */
+.contains-task-list .task-list-item{
+  font-size:1.15em;       /* ≈23 px */
+}
+
+/* ④ <details> 与 <summary> 里的文字一起放大 */
+details,
+details summary{
+  font-size:1.15em;       /* 与列表正文保持一致 */
+}
+
+/* 可选：副标题再大一点，看着更协调 */
+h2{ font-size:2.5rem; }   /* 现为 2rem → 2.5rem */
+/* === Dark mode overrides ===================================== */
+.dark-mode {
+  --background-color: #1a1a1a;     /* 页面背景 - 深灰而非纯黑 */
+  --text-color: #e0e0e0;           /* 正文文字 - 柔和的浅灰 */
+  --heading-color: #f0f0f0;        /* 标题文字 - 稍亮但不刺眼 */
+  --border-color: #404040;         /* 细边框 - 更柔和的灰色 */
+  --link-color: #6bb6ff;           /* 链接 - 稍亮的蓝色 */
+}
+
+/* 若有代码块固定底色，再补一条 */
+.dark-mode code,
+.dark-mode pre {
+  background: #2a2a2a;             /* 代码块背景 - 比页面背景稍亮 */
+  color: #d0d0d0;                  /* 代码文字颜色 */
+}

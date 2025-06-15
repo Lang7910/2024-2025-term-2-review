@@ -1,0 +1,347 @@
+/* ===== 主题变量 ===== */
+:root {
+  /* 色彩 */
+  --color-primary: #3498db;
+  --color-primary-dark: #2980b9;
+  --color-bg: #f5f7fa;
+  --color-sidebar-bg: #2c3e50;
+  --color-sidebar-text: #ecf0f1;
+  --color-sidebar-hover: #34495e;
+  /* 尺寸 */
+  --sidebar-width: 240px;
+  /* 其它 */
+  --font-base: "Segoe UI", Tahoma, sans-serif;
+  --shadow-card: 0 4px 12px rgba(0,0,0,.08);
+  --ease: .3s ease;
+}
+
+/* ===== 基础 ===== */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:var(--font-base);
+  background:var(--color-bg);
+  height:100vh;
+  overflow:hidden;
+}
+button{cursor:pointer;border:none}
+
+/* ===== 布局 ===== */
+/* 原 styles.css */
+.layout{
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  height: 100%;            /* 已有 */
+  /* ⬇ 加上这一句即可 */
+  grid-template-rows: 1fr; /* 让唯一的行占满整页 */
+}
+
+
+/* ===== 切换按钮 ===== */
+#toggle-btn{
+  position:fixed;
+  top:1rem;
+  left:1rem;
+  z-index:1001;
+  padding:.5rem .75rem;
+  font-size:1.25rem;
+  color:#fff;
+  background:var(--color-primary);
+  border-radius:6px;
+  transition:background var(--ease);
+}
+#toggle-btn:hover{background:var(--color-primary-dark)}
+
+/* ===== 侧边栏 ===== */
+#sidebar{
+  height:100%;
+  overflow-y:auto;
+  background:var(--color-sidebar-bg);
+  color:var(--color-sidebar-text);
+  padding:4rem 0 1rem;
+  box-shadow:2px 0 6px rgba(0,0,0,.2);
+  transition:transform var(--ease);
+}
+/* 章节分组样式 */
+.chapter-group {
+  margin-bottom: 0.5rem;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  background: rgba(255,255,255,0.1);
+  color: var(--color-sidebar-text);
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-left: 4px solid var(--color-primary);
+  transition: background var(--ease);
+  user-select: none;
+}
+
+.group-header:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+.group-toggle {
+  margin-right: 0.5rem;
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.group-content {
+  display: block;
+}
+
+#sidebar a{
+  display:block;
+  padding:.75rem 1.25rem .75rem 2rem;
+  color:inherit;
+  text-decoration:none;
+  font-size:.95rem;
+  border-left:4px solid transparent;
+  transition:background var(--ease),border-left var(--ease);
+}
+#sidebar a:hover{
+  background:var(--color-sidebar-hover);
+  border-left-color:var(--color-primary);
+}
+#sidebar a.active{
+  font-weight:bold;
+  background:var(--color-sidebar-hover);
+  border-left-color:var(--color-primary);
+}
+
+/* 滚动条 */
+#sidebar::-webkit-scrollbar{width:6px}
+#sidebar::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.25);
+  border-radius:3px;
+}
+
+/* ===== 主内容 ===== */
+/* styles.css */
+#content{
+  position: relative;
+  padding: 1rem;
+  height: 100vh;          /* 或 100% 也行，只要它是“确定值” */
+  display: flex;          /* 为了让 iframe 灵活填充 */
+  flex-direction: column;
+}
+
+#chapter-frame{
+  flex: 1 1 auto;         /* 占满剩余空间，高度随 #content 而定 */
+  width:100%;
+  height:100%;
+  border:1px solid #ddd;
+  border-radius:6px;
+  box-shadow:var(--shadow-card);
+}
+
+/* 暗色模式下的iframe样式 */
+html.dark-mode #chapter-frame {
+  border: 1px solid #404040;      /* 柔和的深灰边框 */
+  box-shadow: 0 4px 12px rgba(0,0,0,.3); /* 更柔和的阴影 */
+}
+
+/* ===== 隐藏侧边栏 ===== */
+body.hide-sidebar #sidebar{transform:translateX(-100%)}
+body.hide-sidebar .layout{grid-template-columns:0 1fr}
+
+/* ===== 响应式 ===== */
+@media (max-width:768px){
+  /* sidebar 覆盖在内容之上 */
+  #sidebar{
+    position:fixed;
+    top:0;left:0;
+    width:var(--sidebar-width);
+    z-index:1000;
+  }
+  .layout{
+    grid-template-columns: 1fr;   /* 只有内容列 */
+  }
+  /* 收起时让内容区域可点 */
+  body.hide-sidebar #sidebar{transform:translateX(-100%);}
+  /* 遮罩效果（可选） */
+  body:not(.hide-sidebar)::after{
+    content:"";
+    position:fixed;inset:0;
+    background:rgba(0,0,0,.4);
+    z-index:999;
+  }
+}
+/* --------- 关键补丁：让唯一那一行吃满高度 --------- */
+/* === 保证小屏也能吃满高度 ===== */
+.layout{
+  display: grid;
+  height: 100%;
+  /* 新增 ↓↓↓ —— 关键行！*/
+  grid-template-rows: 1fr;
+}
+/* ===== 章节前后导航按钮 ===== */
+.chapter-nav{
+  display:flex;
+  gap:.75rem;
+  margin-bottom:.75rem;      /* 如果放在 iframe 前 */
+}
+.chapter-nav button{
+  flex:0 0 auto;
+  padding:.5rem 1rem;
+  font-size:1rem;
+  border-radius:6px;
+  background:var(--color-primary);
+  color:#fff;
+  transition:background var(--ease),opacity var(--ease);
+}
+.chapter-nav button:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+.chapter-nav button:not(:disabled):hover{
+  background:var(--color-primary-dark);
+}
+#website-btn {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+#website-btn:hover {
+  background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+html.dark-mode #website-btn {
+  background: linear-gradient(135deg, #198754 0%, #157347 100%);
+}
+html.dark-mode #website-btn:hover {
+  background: linear-gradient(135deg, #146c43 0%, #0f5132 100%);
+  box-shadow: 0 2px 8px rgba(25, 135, 84, 0.4);
+}
+
+/* 倒计时样式 */
+#countdown-timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  border-radius: 6px;
+  min-width: 120px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+#countdown-timer:hover {
+  background: linear-gradient(135deg, #ee5a52 0%, #dc3545 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(255, 107, 107, 0.3);
+}
+
+.countdown-label {
+  font-size: 0.65rem;
+  opacity: 0.9;
+  margin-bottom: 0.1rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.countdown-time {
+  font-size: 0.8rem;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
+}
+
+/* 暗色模式下的倒计时样式 */
+html.dark-mode #countdown-timer {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+html.dark-mode #countdown-timer:hover {
+  background: linear-gradient(135deg, #786bec 0%, #bd2130 100%);
+  box-shadow: 0 3px 8px rgba(220, 53, 69, 0.4);
+}
+/* 让上一章 / 下一章整体向右挪出汉堡的宽度 */
+body.hide-sidebar .chapter-nav{
+  margin-left: calc(1rem + 48px);  /* 48px≈汉堡按钮的实际宽度，可按需微调 */
+}
+
+/* 双保险：如果别的主题 CSS 把 html/body 撑不到 100% */
+html,body{height:100%;}
+
+
+/* === Dark mode overrides ===================================== */
+html.dark-mode body {
+  /* Inherit dark mode variables for body if html has dark-mode */
+  --color-bg: #1a1a1a; /* 更柔和的深灰背景 */
+  color: #e0e0e0;      /* 更柔和的浅灰文字 */
+}
+
+html.dark-mode {
+  /* Define dark mode variables on html element for global scope */
+  --color-primary: #4a9eff;        /* 更柔和的蓝色主色调 */
+  --color-primary-dark: #3a8eef;   /* 更柔和的深蓝色 */
+  --color-bg: #1a1a1a;             /* 更柔和的深灰背景 */
+  --color-sidebar-bg: #2a2a2a;     /* 稍亮的侧边栏背景 */
+  --color-sidebar-text: #d0d0d0;   /* 更柔和的侧边栏文字 */
+  --color-sidebar-hover: #3a3a3a;  /* 更柔和的悬停背景 */
+  
+  /* 主页面内容区域的默认文字颜色 - this is now set on html.dark-mode body */
+}
+
+html.dark-mode #sidebar::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,.15);
+}
+
+/* 暗黑模式下的分组样式 */
+html.dark-mode .group-header {
+  background: rgba(255,255,255,0.05);
+  color: var(--color-sidebar-text);
+}
+
+html.dark-mode .group-header:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* iframe前的提示文字样式 - 尽可能小 */
+.tiny-notice {
+  font-size: 0.9rem !important;  /* 极小的字体 */
+  line-height: 1.1 !important;
+  margin-bottom: 0.2rem !important;
+  padding: 0.1rem 0 !important;
+  color: #0e0d0d !important;
+  opacity: 0.7 !important;
+  font-weight: 300 !important;  /* 更细的字体 */
+  letter-spacing: -0.02em !important;  /* 紧凑字间距 */
+}
+
+/* 暗色模式下的提示文字 */
+html.dark-mode .tiny-notice {
+  color: #ffffff !important;
+  opacity: 0.6 !important;
+}
+
+/* 保持原有的选择器作为备用 */
+#content > div:first-child {
+  font-size: 0.6rem;
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
+  color: #666;
+  opacity: 0.8;
+}
+
+html.dark-mode #content > div:first-child {
+  color: #999;
+  opacity: 0.7;
+}
+
+/* 汉堡按钮和章节导航按钮已使用CSS变量，会自动应用新的主色调 */
+/* 如果需要进一步微调，例如边框颜色等，可以在这里添加 */
+
+
