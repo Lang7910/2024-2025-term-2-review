@@ -189,6 +189,25 @@
     html.dark-mode #submit-answer-btn:hover {
       background-color: #004494;
     }
+    
+    /* Random mode select styles */
+    #random-mode-select {
+      transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+    #random-mode-select:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    html.dark-mode #random-mode-select {
+      background-color: #3a3a3a;
+      border-color: #505050;
+      color: #e0e0e0;
+    }
+    html.dark-mode #random-mode-select:focus {
+      border-color: #80bdff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
 
     /* Mobile responsive styles - Enhanced device detection */
     @media (max-width: 768px) and (pointer: coarse), 
@@ -199,11 +218,11 @@
         padding: 15px;
       }
       #quiz-container h2 {
-        font-size: 1.8em;
+        font-size: 1.6em;
         margin-bottom: 25px;
       }
       .question {
-        font-size: 1.6em;
+        font-size: 1.5em;
         line-height: 1.4;
         margin-bottom: 25px;
       }
@@ -441,7 +460,7 @@
 </head>
 <body>
   <div id="scoreboard">
-    <h3 style="margin: 0 0 8px 0; text-align: center; font-size: 1.1em;">计分板</h3>
+    
     
     <!-- 分数统计区域 -->
     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 6px; padding: 4px; background: rgba(0,0,0,0.05); border-radius: 4px;">
@@ -461,7 +480,11 @@
     <!-- 筛选选项区域 -->
     <div style="margin-bottom: 8px;">
       <div class="scoreboard-item" style="margin-bottom: 6px;">
-        <label style="display: block; margin-bottom: 4px; font-weight: bold; font-size: 0.9em;">抽题范围:</label>
+        <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 4px;">
+          <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 4px; font-weight: bold; font-size: 0.9em;">抽题范围:</label>
+          </div>
+        </div>
         <div id="subject-checkboxes" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; padding: 4px; background: rgba(0,0,0,0.03); border-radius: 3px;">
           <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em; cursor: pointer; padding: 1px 4px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
             <input type="checkbox" value="manufacturing" style="margin: 0;">
@@ -476,10 +499,22 @@
             工业互联网
           </label>
         </div>
+        <div style="display: flex; align-items: center; gap: 8px; white-space: nowrap;">
+          <label style="font-weight: bold; font-size: 0.9em;">随机模式:</label>
+          <select id="random-mode-select" style="padding: 4px 6px; font-size: 0.85em; border: 1px solid #ddd; border-radius: 3px; background: rgba(255,255,255,0.8); color: #333; cursor: pointer;">
+            <option value="random-with-replacement">放回抽样（可重复）</option>
+            <option value="random-without-replacement">不放回抽样（不重复）</option>
+            <option value="sequential">顺序播放（验证用）</option>
+          </select>
+        </div>
       </div>
       
       <div class="scoreboard-item">
-        <label style="display: block; margin-bottom: 4px; font-weight: bold; font-size: 0.9em;">题目类型:</label>
+        <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 4px;">
+          <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 4px; font-weight: bold; font-size: 0.9em;">题目类型:</label>
+          </div>
+        </div>
         <div id="question-type-checkboxes" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-start; padding: 4px; background: rgba(0,0,0,0.03); border-radius: 3px;">
         <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em; cursor: pointer; padding: 1px 4px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
           <input type="checkbox" value="single-choice" checked style="margin: 0;">
@@ -502,12 +537,15 @@
           简答题(测试)
         </label>
         </div>
+        <div style="display: flex; align-items: center; gap: 4px; white-space: nowrap;">
+          <label style="display: flex; align-items: center; gap: 4px; font-size: 0.85em; cursor: pointer; padding: 1px 4px; border-radius: 3px; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='rgba(0,0,0,0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+            <input type="checkbox" id="shuffle-options-checkbox" style="margin: 0;" checked>
+            打乱选项顺序
+          </label>
+        </div>
       </div>
     </div>
-    
-
   </div>
-
   <div id="quiz-container">
     <h2>随机题目</h2>
     <div id="question-area">

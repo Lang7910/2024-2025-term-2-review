@@ -264,8 +264,52 @@ html.dark-mode #countdown-timer {
 }
 
 html.dark-mode #countdown-timer:hover {
-  background: linear-gradient(135deg, #786bec 0%, #bd2130 100%);
+  background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
   box-shadow: 0 3px 8px rgba(220, 53, 69, 0.4);
+}
+
+/* 紧急状态倒计时样式 - 红色渐变呼吸闪烁效果 */
+#countdown-timer.urgent {
+  background: linear-gradient(135deg, #ff4757 0%, #ff3838 50%, #ff2d2d 100%) !important;
+  animation: urgentPulse 1.5s ease-in-out infinite alternate;
+  box-shadow: 0 0 20px rgba(255, 71, 87, 0.6), 0 0 40px rgba(255, 71, 87, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+#countdown-timer.urgent:hover {
+  background: linear-gradient(135deg, #ff3838 0%, #ff2d2d 50%, #ff1e1e 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255, 71, 87, 0.8), 0 0 50px rgba(255, 71, 87, 0.5);
+}
+
+/* 暗色模式下的紧急状态样式 */
+html.dark-mode #countdown-timer.urgent {
+  background: linear-gradient(135deg, #ff4757 0%, #ff3838 50%, #ff2d2d 100%) !important;
+  box-shadow: 0 0 20px rgba(255, 71, 87, 0.7), 0 0 40px rgba(255, 71, 87, 0.5);
+}
+
+html.dark-mode #countdown-timer.urgent:hover {
+  background: linear-gradient(135deg, #ff3838 0%, #ff2d2d 50%, #ff1e1e 100%) !important;
+  box-shadow: 0 0 25px rgba(255, 71, 87, 0.9), 0 0 50px rgba(255, 71, 87, 0.6);
+}
+
+/* 呼吸闪烁动画 */
+@keyframes urgentPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(255, 71, 87, 0.6), 0 0 40px rgba(255, 71, 87, 0.4);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 71, 87, 0.8), 0 0 60px rgba(255, 71, 87, 0.6);
+    filter: brightness(1.2);
+  }
+  100% {
+    transform: scale(1.02);
+    box-shadow: 0 0 25px rgba(255, 71, 87, 0.7), 0 0 50px rgba(255, 71, 87, 0.5);
+    filter: brightness(1.1);
+  }
 }
 /* 让上一章 / 下一章整体向右挪出汉堡的宽度 */
 body.hide-sidebar .chapter-nav{

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Map&#xff08;Mapper&#xff09;&#x7a0b;&#x5e8f;&#x8be6;&#x89e3;</title>
+            <link rel="stylesheet" href="../chapter.css" />
+            <script defer src="../toggle-theme.js"></script>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="mapmapper程序详解">Map（Mapper）程序详解</h1>
+<pre><code class="language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>{
+    <span class="hljs-type">char</span>* buffer = <span class="hljs-literal">NULL</span>;         <span class="hljs-comment">// 用于存放从 stdin 读取的一行文本</span>
+    <span class="hljs-type">size_t</span> b_size = <span class="hljs-number">0</span>;           <span class="hljs-comment">// buffer 的当前分配大小，由 getline 动态调整</span>
+    <span class="hljs-type">ssize_t</span> read_num = <span class="hljs-number">0</span>;        <span class="hljs-comment">// 记录 getline 实际读取到的字符数 (-1 表示 EOF)</span>
+
+    <span class="hljs-comment">// 不断从标准输入读取一行，直到遇到 EOF</span>
+    <span class="hljs-keyword">while</span> (read_num != <span class="hljs-number">-1</span>) {
+        read_num = getline(&amp;buffer, &amp;b_size, <span class="hljs-built_in">stdin</span>);
+        <span class="hljs-comment">// 如果成功读取到一行（未遇到 EOF）</span>
+        <span class="hljs-keyword">if</span> (read_num != <span class="hljs-number">-1</span>) {
+            <span class="hljs-comment">// 将末尾的换行符 &#x27;\n&#x27; （位于 buffer[read_num-1]）替换为字符串结束符 &#x27;\0&#x27;</span>
+            buffer[read_num - <span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;
+            <span class="hljs-comment">// 以空格分割单词</span>
+            <span class="hljs-type">char</span>* seg = strtok(buffer, <span class="hljs-string">&quot; &quot;</span>);
+            <span class="hljs-keyword">while</span> (seg) {
+                <span class="hljs-comment">// 输出格式：&lt;单词&gt;\t1\n，供 Reduce 程序汇总使用</span>
+                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\t1\n&quot;</span>, seg);
+                <span class="hljs-comment">// 继续获取下一个单词</span>
+                seg = strtok(<span class="hljs-literal">NULL</span>, <span class="hljs-string">&quot; &quot;</span>);
+            }
+        }
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p><strong>核心流程：</strong></p>
+<ol>
+<li><strong>读取行</strong>：用 <code>getline</code> 动态分配并读取一整行文本，避免固定缓冲区溢出。</li>
+<li><strong>去除换行</strong>：将结尾的 <code>\n</code> 改写为 <code>\0</code>，方便后续字符串操作。</li>
+<li><strong>分词</strong>：<code>strtok</code> 以空格分隔，将一行文本拆成若干单词。</li>
+<li><strong>输出键值对</strong>：每遇到一个单词，就输出 <code>&lt;单词&gt;\t1</code>，代表该单词出现 1 次。</li>
+</ol>
+<hr>
+<h1 id="reducereducer程序详解">Reduce（Reducer）程序详解</h1>
+<pre><code class="language-c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>{
+    <span class="hljs-type">char</span>* buffer1 = <span class="hljs-literal">NULL</span>;    <span class="hljs-comment">// 保存上一行的单词</span>
+    <span class="hljs-type">char</span>* buffer2 = <span class="hljs-literal">NULL</span>;    <span class="hljs-comment">// 保存当前读取行的单词</span>
+    <span class="hljs-type">size_t</span> len = <span class="hljs-number">0</span>;          <span class="hljs-comment">// 由 getline 管理的 buffer 大小</span>
+    <span class="hljs-type">ssize_t</span> read_num = <span class="hljs-number">0</span>;    <span class="hljs-comment">// 记录 getline 读取字符数</span>
+    <span class="hljs-type">int</span> word_count = <span class="hljs-number">1</span>;      <span class="hljs-comment">// 当前单词的累加计数</span>
+
+    <span class="hljs-comment">// 读取第一行，初始化 buffer1</span>
+    read_num = getline(&amp;buffer1, &amp;len, <span class="hljs-built_in">stdin</span>);
+    <span class="hljs-keyword">if</span> (read_num != <span class="hljs-number">-1</span>)
+        buffer1[read_num - <span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;  <span class="hljs-comment">// 去除换行符</span>
+
+    <span class="hljs-comment">// 逐行读取剩余输入</span>
+    <span class="hljs-keyword">while</span> (read_num != <span class="hljs-number">-1</span>) {
+        read_num = getline(&amp;buffer2, &amp;len, <span class="hljs-built_in">stdin</span>);
+        <span class="hljs-keyword">if</span> (read_num != <span class="hljs-number">-1</span>) {
+            buffer2[read_num - <span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;\0&#x27;</span>;  <span class="hljs-comment">// 去除换行</span>
+            <span class="hljs-comment">// 如果当前 key（buffer2）与上一行 key 相同</span>
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(buffer1, buffer2) == <span class="hljs-number">0</span>) {
+                word_count++;  <span class="hljs-comment">// 计数累加</span>
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// key 变化，输出上一 key 及其总计数</span>
+                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s -&gt; %d\n&quot;</span>, buffer1, word_count);
+                <span class="hljs-comment">// 重置计数并更新 buffer1</span>
+                word_count = <span class="hljs-number">1</span>;
+                <span class="hljs-built_in">strcpy</span>(buffer1, buffer2);
+            }
+        }
+    }
+
+    <span class="hljs-comment">// 循环结束后，别忘了输出最后一个单词的计数</span>
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s -&gt; %d\n&quot;</span>, buffer1, word_count);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p><strong>核心流程：</strong></p>
+<ol>
+<li><strong>初始化</strong>：先读取并保存第一行的 <code>&lt;单词&gt;\t1</code>（只保留单词部分）。</li>
+<li><strong>逐行比较</strong>：不断读取后续行，与 <code>buffer1</code> 中保存的单词比较：
+<ul>
+<li><strong>相同</strong>：累加计数器 <code>word_count</code>。</li>
+<li><strong>不同</strong>：输出上一个单词的总计数，然后重置 <code>word_count</code>，并把 <code>buffer2</code> 的内容复制给 <code>buffer1</code>。</li>
+</ul>
+</li>
+<li><strong>结束处理</strong>：循环结束后，别忘了输出最后一个单词和它的累积计数。</li>
+</ol>
+<hr>
+<p>以上两个程序分别实现了 MapReduce 的「Map 阶段」和「Reduce 阶段」功能：</p>
+<ul>
+<li><strong>Map</strong>：将文本拆解成若干 <code>&lt;key, value&gt;</code> 对，其中 <code>key</code> 为单词，<code>value</code> 初始为 <code>1</code>。</li>
+<li><strong>Reduce</strong>：对相同 <code>key</code> 的多条记录进行汇总，统计每个单词出现的总次数。</li>
+</ul>
+
+            
+            
+        </body>
+        </html>
