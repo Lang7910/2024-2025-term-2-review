@@ -154,6 +154,23 @@
       color: #e0e0e0 !important;
     }
     
+    /* Dark mode feedback styles */
+    html.dark-mode .feedback.correct {
+      background-color: #1a3d2e;
+      border-color: #2d5a3d;
+      color: #4ade80;
+    }
+    html.dark-mode .feedback.incorrect {
+      background-color: #3d1a1a;
+      border-color: #5a2d2d;
+      color: #f87171;
+    }
+    html.dark-mode .feedback.neutral {
+      background-color: #1a2d3d;
+      border-color: #2d3d5a;
+      color: #60a5fa;
+    }
+    
     /* Subject checkboxes styles */
     #subject-checkboxes label {
       transition: color 0.3s ease;
@@ -208,6 +225,13 @@
       border-color: #80bdff;
       box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     }
+    
+    /* Question count display styles */
+    html.dark-mode #question-count-display {
+      background-color: #3a3a3a !important;
+      border-color: #505050 !important;
+      color: #d0d0d0 !important;
+    }
 
     /* Mobile responsive styles - Enhanced device detection */
     @media (max-width: 768px) and (pointer: coarse), 
@@ -218,11 +242,11 @@
         padding: 15px;
       }
       #quiz-container h2 {
-        font-size: 1.6em;
+        font-size: 1.0em;
         margin-bottom: 25px;
       }
       .question {
-        font-size: 1.5em;
+        font-size: 2.0em;
         line-height: 1.4;
         margin-bottom: 25px;
       }
@@ -455,6 +479,11 @@
       border: 1px solid #ebb7b7;
       color: #792525;
     }
+    .feedback.neutral {
+      background-color: #e6f3ff;
+      border: 1px solid #b7d4eb;
+      color: #255479;
+    }
     /* #next-question-btn specific styles are now part of the common button styles */
   </style>
 </head>
@@ -504,8 +533,10 @@
           <select id="random-mode-select" style="padding: 4px 6px; font-size: 0.85em; border: 1px solid #ddd; border-radius: 3px; background: rgba(255,255,255,0.8); color: #333; cursor: pointer;">
             <option value="random-with-replacement">放回抽样（可重复）</option>
             <option value="random-without-replacement">不放回抽样（不重复）</option>
+            <option value="adaptive">自适应刷题（智能推荐）</option>
             <option value="sequential">顺序播放（验证用）</option>
           </select>
+          
         </div>
       </div>
       
@@ -564,7 +595,7 @@
   </div>
   
   <div class="tiny-notice" style="margin-top: 20px; margin-bottom: 10px;">
-    最新内容请点击刷新
+    最新内容请点击刷新，清除缓存，或者清除进度，Ctrl + F5 强制刷新，即是最新版本
   </div>
   
   <script src="../quiz.js"></script>

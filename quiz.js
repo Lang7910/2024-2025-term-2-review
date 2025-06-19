@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let isQuestionAnswered = false; // 当前题目是否已回答
   
   // 随机模式相关变量
-  let randomMode = 'random-without-replacement'; // 默认为不放回抽样'sequential', 'random-with-replacement', 'random-without-replacement'
+  let randomMode = 'random-without-replacement'; // 默认为不放回抽样'sequential', 'random-with-replacement', 'random-without-replacement', 'adaptive'
   let questionPool = []; // 当前题目池
   let currentQuestionIndex = 0; // 顺序模式下的当前题目索引
   let usedQuestions = []; // 不放回抽样模式下已使用的题目
@@ -99,7 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
       'chapter12.html'
     ],
     industrial: [
-      'chapter13.html'
+      'chapter13.html',
+      'chapter14.html'
     ]
   };
   
@@ -290,8 +291,67 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
 
+    // 为每道题初始化自适应刷题相关字段
+    questions.forEach(question => {
+      if (!question.hasOwnProperty('history')) {
+        question.history = [];
+      }
+      if (!question.hasOwnProperty('weight')) {
+        question.weight = 50; // 初始权重
+      }
+      if (!question.hasOwnProperty('mastered')) {
+        question.mastered = false;
+      }
+    });
+
     return questions;
   }
+
+  // === 自适应刷题功能 ===
+  const STEP_UP = 20;     // 连续错一次就 +20
+  const STEP_DOWN = 10;   // 连续对一次就 -10
+  const MAX_W = 100;
+  const MIN_W = 5;
+  const WINDOW = 3;       // 最近 3 次全对才降权
+
+  function selectAdaptiveQuestion() {
+    const pool = allQuestions.filter(q => !q.mastered);     // mastered = 权重≤minWeight
+    if (pool.length === 0) {
+      // 所有题目都已掌握，重置所有题目的掌握状态
+      allQuestions.forEach(q => {
+        q.mastered = false;
+        q.weight = Math.max(MIN_W + 10, q.weight); // 稍微提高权重，避免立即再次被标记为掌握
+      });
+      return allQuestions[Math.floor(Math.random() * allQuestions.length)];
+    }
+    
+    const totalWeight = pool.reduce((sum, q) => sum + q.weight, 0);
+    if (totalWeight === 0) {
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+    
+    const threshold = Math.random() * totalWeight;
+    let running = 0;
+    for (const q of pool) {
+      running += q.weight;
+      if (running >= threshold) return q;                   // 权重越高越可能被选中
+    }
+    return pool[pool.length - 1]; // 备用返回
+  }
+
+  function updateAdaptiveStats(question, isCorrect) {
+    question.history.push(isCorrect);
+    if (question.history.length > WINDOW) question.history.shift();
+
+    if (!isCorrect) {
+      question.weight = Math.min(MAX_W, question.weight + STEP_UP);
+      question.mastered = false; // 答错了就不再是掌握状态
+    } else if (question.history.length >= WINDOW && question.history.every(Boolean)) {           // 最近 WINDOW 次全对
+      question.weight = Math.max(MIN_W, question.weight - STEP_DOWN);
+      if (question.weight === MIN_W) question.mastered = true;
+    }
+  }
+  // === 自适应刷题功能结束 ===
 
 
 
@@ -361,6 +421,34 @@ document.addEventListener('DOMContentLoaded', () => {
     questionsCorrectEl.textContent = questionsCorrect;
     const accuracy = questionsAnswered > 0 ? ((questionsCorrect / questionsAnswered) * 100).toFixed(1) : 0;
     accuracyRateEl.textContent = `${accuracy}%`;
+    
+    // 在自适应模式下显示剩余待巩固题目数
+    if (randomMode === 'adaptive' && allQuestions.length > 0) {
+      const remainingQuestions = allQuestions.filter(q => !q.mastered).length;
+      let adaptiveInfoEl = document.getElementById('adaptive-info');
+      if (!adaptiveInfoEl) {
+        adaptiveInfoEl = document.createElement('div');
+        adaptiveInfoEl.id = 'adaptive-info';
+        adaptiveInfoEl.style.cssText = `
+          font-size: 0.9em;
+          color: #666;
+          margin-top: 5px;
+          text-align: center;
+        `;
+        // 添加到计分板中
+        const scoreboard = document.querySelector('.scoreboard');
+        if (scoreboard) {
+          scoreboard.appendChild(adaptiveInfoEl);
+        }
+      }
+      adaptiveInfoEl.textContent = `剩余待巩固题：${remainingQuestions} 道`;
+    } else {
+      // 非自适应模式时隐藏这个信息
+      const adaptiveInfoEl = document.getElementById('adaptive-info');
+      if (adaptiveInfoEl) {
+        adaptiveInfoEl.style.display = 'none';
+      }
+    }
   }
 
   // 保存进度到 localStorage
@@ -380,6 +468,13 @@ document.addEventListener('DOMContentLoaded', () => {
       currentQuestionIndex,
       usedQuestions,
       shuffleOptions: document.getElementById('shuffle-options-checkbox')?.checked ?? shuffleOptions,
+      // 保存自适应刷题数据
+      adaptiveData: allQuestions.map(q => ({
+        question: q.question,
+        history: q.history || [],
+        weight: q.weight || 50,
+        mastered: q.mastered || false
+      })),
       timestamp: Date.now()
     };
     localStorage.setItem('quizProgress', JSON.stringify(progressData));
@@ -442,6 +537,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (shuffleCheckbox) {
           shuffleCheckbox.checked = shuffleOptions;
         }
+      }
+      
+      // 恢复自适应刷题数据
+      if (progressData.adaptiveData && Array.isArray(progressData.adaptiveData)) {
+        // 创建一个映射以快速查找保存的数据
+        const adaptiveMap = new Map();
+        progressData.adaptiveData.forEach(data => {
+          adaptiveMap.set(data.question, data);
+        });
+        
+        // 将保存的数据应用到当前题目
+        allQuestions.forEach(question => {
+          const savedData = adaptiveMap.get(question.question);
+          if (savedData) {
+            question.history = savedData.history || [];
+            question.weight = savedData.weight || 50;
+            question.mastered = savedData.mastered || false;
+          }
+        });
       }
       
       // 恢复当前题目
@@ -667,6 +781,11 @@ document.addEventListener('DOMContentLoaded', () => {
           selectedQuestion = availableQuestions[randomIndex];
           usedQuestions.push(selectedQuestion.question);
         }
+        break;
+        
+      case 'adaptive':
+        // 自适应刷题模式
+        selectedQuestion = selectAdaptiveQuestion();
         break;
         
       case 'random-with-replacement':
@@ -1082,6 +1201,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     isQuestionAnswered = true;
 
+    // 更新自适应刷题统计
+    if (randomMode === 'adaptive') {
+      updateAdaptiveStats(currentQuestion, isCorrect);
+    }
+
     if (isCorrect) {
     feedbackArea.textContent = `回答正确！获得 ${pointsForThisQuestion} 分。`;
     feedbackArea.className = 'feedback correct';
@@ -1267,6 +1391,89 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // 添加重置巩固按钮
+  function addResetMasteryButton() {
+    const resetMasteryBtn = document.createElement('button');
+    resetMasteryBtn.id = 'reset-mastery-btn';
+    resetMasteryBtn.textContent = '重置巩固';
+    resetMasteryBtn.style.cssText = `
+      padding: 5px 10px;
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8em;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-left: 5px;
+      display: none;
+    `;
+    
+    resetMasteryBtn.addEventListener('mouseenter', () => {
+      resetMasteryBtn.style.background = 'linear-gradient(135deg, #20c997 0%, #17a2b8 100%)';
+      resetMasteryBtn.style.transform = 'translateY(-1px)';
+      resetMasteryBtn.style.boxShadow = '0 3px 6px rgba(0,0,0,0.15)';
+    });
+    
+    resetMasteryBtn.addEventListener('mouseleave', () => {
+      resetMasteryBtn.style.background = 'linear-gradient(135deg, #28a745 0%, #20c997 100%)';
+      resetMasteryBtn.style.transform = 'translateY(0)';
+      resetMasteryBtn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+    });
+    
+    resetMasteryBtn.addEventListener('click', function() {
+      if (confirm('确定要重置所有题目的掌握状态吗？这将清除自适应学习的进度。')) {
+        resetAdaptiveMastery();
+      }
+    });
+    
+    // 将按钮添加到清除进度按钮旁边
+    const clearBtn = document.getElementById('clear-progress-btn');
+    if (clearBtn && clearBtn.parentNode) {
+      clearBtn.parentNode.insertBefore(resetMasteryBtn, clearBtn.nextSibling);
+    }
+    
+    // 监听随机模式变化，控制按钮显示
+    const randomModeSelect = document.getElementById('random-mode-select');
+    if (randomModeSelect) {
+      const updateButtonVisibility = () => {
+        resetMasteryBtn.style.display = randomModeSelect.value === 'adaptive' ? 'inline-block' : 'none';
+      };
+      
+      randomModeSelect.addEventListener('change', updateButtonVisibility);
+      updateButtonVisibility(); // 初始化时也要检查
+    }
+  }
+
+  // 重置自适应掌握状态
+  function resetAdaptiveMastery() {
+    allQuestions.forEach(question => {
+      question.history = [];
+      question.weight = 50;
+      question.mastered = false;
+    });
+    
+    // 保存更新后的状态
+    saveProgress();
+    
+    // 更新计分板显示
+    updateScoreboard();
+    
+    // 显示提示信息
+    const feedbackArea = document.getElementById('feedback-area');
+    if (feedbackArea) {
+      feedbackArea.innerHTML = '<div class="feedback neutral">已重置所有题目的掌握状态，自适应学习重新开始！</div>';
+      setTimeout(() => {
+        feedbackArea.innerHTML = '';
+      }, 3000);
+    }
+    
+    console.log('自适应掌握状态已重置');
+  }
+
   // 初始化
   // 设置智能默认筛选
   setDefaultSubjectSelection();
@@ -1297,6 +1504,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // 添加清除进度按钮
   addClearProgressButton();
+  
+  // 添加重置巩固按钮
+  addResetMasteryButton();
   
   // === 键盘快捷键：Enter = 提交 / 下一题 ==========================
   document.addEventListener('keydown', e => {

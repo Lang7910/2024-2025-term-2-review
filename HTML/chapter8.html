@@ -184,7 +184,7 @@
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. 将故障节点标记为“宕机”并启动数据冗余复制</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 不采取任何措施</li>
 </ul>
-<p><strong>07 HDFS 名称节点（NameNode）保存了哪些核心数据结构？</strong></p>
+<p><strong>07 [多选]HDFS 名称节点（NameNode）保存了哪些核心数据结构？</strong></p>
 <ul class="contains-task-list">
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. FsImage</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. EditLog</li>
@@ -192,7 +192,7 @@
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 文件内容</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> E. 每个文件中各个块所在的数据节点的位置信息</li>
 </ul>
-<p><strong>08 HDFS 数据节点的功能包括哪些？</strong></p>
+<p><strong>08 [多选]HDFS 数据节点的功能包括哪些？</strong></p>
 <ul class="contains-task-list">
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 管理分布式文件系统的命名空间</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 负责数据的存储和读取</li>
@@ -222,7 +222,7 @@
 </ul>
 <p><strong>13 在 HDFS 中，______（NameNode）负责管理分布式文件系统的命名空间。</strong></p>
 <details><summary>点击显示答案</summary>
-NameNode
+名称节点
 </details>
 <p><strong>14 HDFS 采用了______结构模型，一个 HDFS 集群包括一个名称节点和若干个数据节点。</strong></p>
 <details><summary>点击显示答案</summary>
@@ -243,13 +243,13 @@ TCP/IP
 <p><strong>18 [简答]HDFS 体系结构中包括哪两个主要组件？它们各自的功能是什么？</strong></p>
 <details><summary>点击显示答案</summary>
 HDFS 包括 NameNode 和 DataNode 两个主要组件。  
-- **NameNode**：管理文件系统命名空间、维护元数据（如目录树、文件 inode 及块列表）。  
-- **DataNode**：存储实际的数据块，处理客户端的读写请求，并定期向 NameNode 汇报心跳和块报告。
+- NameNode：管理文件系统命名空间、维护元数据（如目录树、文件 inode 及块列表）。  
+- DataNode：存储实际的数据块，处理客户端的读写请求，并定期向 NameNode 汇报心跳和块报告。
 </details>
 <p><strong>19 [简答]HDFS 如何实现数据的冗余存储？这样做的好处是什么？</strong></p>
 <details><summary>点击显示答案</summary>
 HDFS 通过多副本机制（默认 3 副本）将数据块复制到不同的 DataNode。  
-**好处**：即使部分节点故障，也可从其他副本读取数据，提高系统容错性和可用性。
+好处：即使部分节点故障，也可从其他副本读取数据，提高系统容错性和可用性。
 </details>
 <p><strong>20 [简答]当 HDFS 中的数据节点出现故障时，系统是如何应对的？</strong></p>
 <details><summary>点击显示答案</summary>
@@ -257,8 +257,8 @@ NameNode 会将故障节点标记为下线，并对剩余副本不足的块启�
 </details>
 <p><strong>21 [简答]HDFS 中的 FsImage 和 EditLog 分别保存了什么信息？</strong></p>
 <details><summary>点击显示答案</summary>
-- **FsImage**：持久化存储文件系统完整元数据快照，包括目录树、文件 inode 及块 ID 列表。  
-- **EditLog**：记录对命名空间的增量修改操作（如创建、删除、重命名等），用于增量更新 FsImage。
+FsImage：持久化存储文件系统完整元数据快照，包括目录树、文件 inode 及块 ID 列表。  
+EditLog：记录对命名空间的增量修改操作（如创建、删除、重命名等），用于增量更新 FsImage。
 </details>
 
             

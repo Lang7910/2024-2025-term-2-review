@@ -184,14 +184,14 @@
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. TaskScheduler</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. Worker Node</li>
 </ul>
-<p><strong>07 RDD 的设计与运行原理中，以下哪些描述是正确的？</strong></p>
+<p><strong>07 [多选]RDD 的设计与运行原理中，以下哪些描述是正确的？</strong></p>
 <ul class="contains-task-list">
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. RDD 是分布式内存的一个抽象概念</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. RDD 之间的转换操作形成依赖关系，可以实现管道化</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> C. RDD 采用惰性调用，真正的计算发生在行动操作</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. RDD 的数据必须存储在 HDFS 中</li>
 </ul>
-<p><strong>08 以下哪些操作是 RDD 的转换操作？</strong></p>
+<p><strong>08 [多选]以下哪些操作是 RDD 的转换操作？</strong></p>
 <ul class="contains-task-list">
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. map</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. filter</li>
@@ -224,8 +224,8 @@
 </details>
 <p><strong>14 [简答]描述 Spark 中的转换操作和行动操作的区别。</strong></p>
 <details><summary>点击显示答案</summary>
-**转换操作（transformation）**：对已有 RDD 进行加工（如 map、filter、flatMap 等），生成新的 RDD；这些操作都是惰性求值，只是记录血缘（lineage），不会立刻执行。  
-**行动操作（action）**：触发整个依赖 DAG 的真正计算，并将结果返回给 Driver 或写入外部存储（如 reduce、collect、count、saveAsTextFile 等）。
+**转换操作（transformation：对已有 RDD 进行加工（如 map、filter、flatMap 等），生成新的 RDD；这些操作都是惰性求值，只是记录血缘（lineage），不会立刻执行。  
+**行动操作（action）：触发整个依赖 DAG 的真正计算，并将结果返回给 Driver 或写入外部存储（如 reduce、collect、count、saveAsTextFile 等）。
 </details>
 
             

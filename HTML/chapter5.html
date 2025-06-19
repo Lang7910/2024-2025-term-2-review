@@ -200,7 +200,7 @@
 </ul>
 <p><strong>10 在神经网络的训练过程中，______算法是一种常用的优化算法，用于调整权重以最小化损失函数。</strong></p>
 <details><summary>点击显示答案</summary>
-梯度下降法
+随机梯度下降
 </details>
 <p><strong>11 [简答]简述感知器的基本原理。</strong></p>
 <details><summary>点击显示答案</summary>
@@ -208,14 +208,13 @@
 $$z = \mathbf{w}\cdot\mathbf{x} + b$$  
 然后通过阶跃激活函数输出二值决策（**y** = 1 或 **y** = 0），对线性可分数据进行分类。
 </details>
-<p><strong>12  [简答]感知器学习过程中的权重调整是如何进行的？</strong></p>
-
+<p><strong>12 [简答]感知器学习过程中的权重调整是如何进行的？</strong></p>
 <details><summary>点击显示答案</summary>
 按感知器学习规则更新：  
 $$\Delta w_i = \eta\,(d - y)\,x_i,\quad \Delta b = \eta\,(d - y)$$  
 其中 $\eta$ 为学习率，$d$ 为目标标签，$y$ 为当前输出。
 </details>
-<p><strong>13  [简答]前馈神经网络的基本结构是什么？</strong></p>
+<p><strong>13 [简答]前馈神经网络的基本结构是什么？</strong></p>
 <details><summary>点击显示答案</summary>
 由输入层、一个或多个隐藏层和输出层按序组成，各层之间通常是全连接（Dense），信息沿前向（Feedforward）方向传播。
 </details>

@@ -165,10 +165,10 @@
 </ul>
 <p><strong>04 在 Shuffle 过程中，哪个操作是在 Map 任务全部结束之前进行的？</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 归并</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"checked=""type="checkbox"> A. 归并</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> B. 排序</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. 分区</li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 溢写</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 溢写</li>
 </ul>
 <p><strong>05 运行 MapReduce 程序前，需要启动 Hadoop 的哪个服务？</strong></p>
 <ul class="contains-task-list">
@@ -177,7 +177,7 @@
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> C. MapReduce</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. ZooKeeper</li>
 </ul>
-<p><strong>06 MapReduce 的体系结构主要包括哪些组件？</strong></p>
+<p><strong>06 [多选]MapReduce 的体系结构主要包括哪些组件？</strong></p>
 <ul class="contains-task-list">
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. Client</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. JobTracker</li>
@@ -185,7 +185,7 @@
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. Reduce</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> E. Map</li>
 </ul>
-<p><strong>07 在 MapReduce 模型中，Map 函数的主要作用包括哪些？</strong></p>
+<p><strong>07 [多选] MapReduce 模型中，Map 函数的主要作用包括哪些？</strong></p>
 <ul class="contains-task-list">
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> A. 对输入数据进行切片</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 对切片后的数据执行处理逻辑</li>
@@ -193,7 +193,7 @@
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 对中间结果进行排序和归并</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> E. 输出最终结果</li>
 </ul>
-<p><strong>08 Reduce 函数在 MapReduce 模型中负责哪些任务？</strong></p>
+<p><strong>08 [多选]Reduce 函数在 MapReduce 模型中负责哪些任务？</strong></p>
 <ul class="contains-task-list">
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 接收 Map 函数输出的中间结果</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 对中间结果进行排序和归并</li>
@@ -201,7 +201,7 @@
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 将最终结果写回到分布式文件系统</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> E. 监控任务的执行进度和资源使用情况</li>
 </ul>
-<p><strong>09 MapReduce 的工作流程包括哪些主要阶段？</strong></p>
+<p><strong>09 [多选]MapReduce 的工作流程包括哪些主要阶段？</strong></p>
 <ul class="contains-task-list">
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 从分布式文件系统读入数据</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 执行 Map 任务输出中间结果</li>
@@ -209,7 +209,7 @@
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> D. 执行 Reduce 任务得到最终结果</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> E. 将最终结果写入分布式文件系统</li>
 </ul>
-<p><strong>10 在 Shuffle 过程中，Map 端需要进行哪些操作？</strong></p>
+<p><strong>10 [多选]在 Shuffle 过程中，Map 端需要进行哪些操作？</strong></p>
 <ul class="contains-task-list">
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 将缓存的数据溢写到本地磁盘</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 对溢写文件进行归并和排序</li>
@@ -217,7 +217,7 @@
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> D. 将归并和排序后的数据发送给 Reduce 端</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> E. 监控 Map 任务的执行进度</li>
 </ul>
-<p><strong>11 MapReduce 程序执行过程中，JobTracker 的职责包括哪些？</strong></p>
+<p><strong>11 [多选]MapReduce 程序执行过程中，JobTracker 的职责包括哪些？</strong></p>
 <ul class="contains-task-list">
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> A. 接收 Client 提交的 MapReduce 作业</li>
 <li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> B. 监控所有 TaskTracker 和作业的健康状况</li>
@@ -227,8 +227,8 @@
 </ul>
 <p><strong>12 MapReduce 采用“数据向计算靠拢”的策略来提高计算效率。</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> 正确</li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> 错误</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" type="checkbox"> 正确</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> 错误</li>
 </ul>
 <p><strong>13 MapReduce 将复杂的、运行于大规模集群上的并行计算过程高度抽象到了两个函数：______ 和 ______。</strong></p>
 <details><summary>点击显示答案</summary>
@@ -244,7 +244,7 @@ Client、JobTracker、TaskTracker
 </details>
 <p><strong>16 [简答]简述在 MapReduce 模型中，Map 任务的主要职责是什么？</strong></p>
 <details><summary>点击显示答案</summary>
-对输入的 Split 数据执行用户定义的映射逻辑，生成中间的 `<key, value>` 对。
+对输入的 Split 数据执行用户定义的映射逻辑，生成中间的 < key, value >对。
 </details>
 <p><strong>17 [简答]简述 Reduce 任务在 MapReduce 作业中扮演什么角色。</strong></p>
 <details><summary>点击显示答案</summary>
